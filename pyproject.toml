@@ -1,0 +1,13 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "bsod2"
+version = "0.1.0"
+description = "your package description"
+authors = [{name = "So Tomita"}]
+dependencies = []
+
+[tool.setuptools.packages.find]
+where = ["src"]
