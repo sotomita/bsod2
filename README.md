@@ -19,16 +19,17 @@ See [z_vs_var.ipynb](sample/z_vs_var.ipynb) for more details.
 See [vertcal_csec.ipynb](sample/vertical_csec.ipynb) for more details.
 ### 2D/3D trajectories plot
 <p align="center">
-  <img src="docs/images/trj2d.png" width="200">
-  <img src="docs/images/trj3d.png" width="200">
-  <img src="docs/images/trj3d_animation.gif", width="200">
-</p>
-<p align="center">
-  
+  <img src="docs/images/trj2d.png" width="200" alt="2D trajectories">
+  <img src="docs/images/trj3d.png" width="200" alt="3D trajectories">
+  <img src="docs/images/trj3d_animation.gif", width="200" alt="animation of 3D trajectories">
 </p>
 
 See [trajectory.ipynb](sample/trajectory.ipynb) for more details.
 ### emagram
+<p align="center">
+ <img src="docs/images/emagram.png" width="200" alt="emagram">
+</p>
+
 See [emagram.ipynb](sample/emagram.ipynb) for more details.
 ## Licence
 This project is distributed under the terms of the GNU General Public License, Version 3 (GPLv3).  
