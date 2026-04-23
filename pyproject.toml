@@ -5,9 +5,17 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "bsod2"
 version = "0.1.0"
-description = "your package description"
+description = "package for reading radiosonde data"
 authors = [{name = "So Tomita"}]
-dependencies = []
+readme = "README.md"
+licence="GPL-3.0-only"
+license-files = ["LICENSE"]
+requires-python = ">=3.14"
+dependencies = [
+    "numpy==2.4.3",
+    "pandas==3.0.2",
+    "metpy==1.7.1",
+]
 
 [tool.setuptools.packages.find]
 where = ["src"]
