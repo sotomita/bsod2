@@ -43,6 +43,22 @@ cast_fields = [
 
 
 def numeric_condition_idx(df: pd.DataFrame, field: str, conditons: list):
+    """evaluate AND conditions
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+
+    field : str
+        target field name
+    conditons : list
+        numerical condition
+
+    Returns
+    -------
+    _type_
+        AND conditions
+    """
 
     idx_all = False
     for i in range(len(conditons)):
@@ -58,6 +74,22 @@ def get_qc_df(
     launch_time: datetime,
     **kwargs,
 ) -> pd.DataFrame:
+    """get post QC DataFrame
+
+    Parameters
+    ----------
+    raw_df : pd.DataFrame
+        raw DataFrame
+    sonde_no : str
+        sonde No.
+    launch_time : datetime
+        launch time
+
+    Returns
+    -------
+    pd.DataFrame
+        post QC DataFrame
+    """
 
     df = raw_df.copy()
 
@@ -96,7 +128,7 @@ def get_qc_df(
             time0.minute,
             time0.second,
         )
-        df.loc[0, "Time"] = time0
+        df.loc[0, "Time"] = time0.strftime("%Y-%m-%d %H:%M:%S")
         for i in range(1, len(df)):
             time = datetime.strptime(df["Time"].iloc[i], "%H:%M:%S")
             time = datetime(
@@ -108,13 +140,15 @@ def get_qc_df(
                 time.second,
             )
             time = time + timedelta(days=1) if time < time0 else time
-            df.loc[i, "Time"] = time
+            df.loc[i, "Time"] = time.strftime("%Y-%m-%d %H:%M:%S")
             time0 = time
 
+        df["Time"] = pd.to_datetime(df["Time"])
+
         # --- error control
-        prs = pd.to_numeric(df["Press0"], errors="coerce").values
-        tmp = pd.to_numeric(df["Temp0"], errors="coerce").values
-        hum = pd.to_numeric(df["Humi0"], errors="coerce").values
+        prs = pd.to_numeric(df["Press0"], errors="coerce").values.copy()
+        tmp = pd.to_numeric(df["Temp0"], errors="coerce").values.copy()
+        hum = pd.to_numeric(df["Humi0"], errors="coerce").values.copy()
 
         # VE
         ve = pd.to_numeric(df["V"], errors="coerce").values
@@ -193,6 +227,31 @@ def get_qc_df(
 def interp_df(
     df: pd.DataFrame, field: str, min: float, max: float, step: float, **kwargs
 ) -> pd.DataFrame:
+    """interpolate with vertical coordinate(z or p).
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        target DataFrame
+    field : str
+        intepolate axis name.(""p" or "z")
+    min : float
+        minimum value of interpolated axis.
+    max : float
+        maximum value of interpolated axis.
+    step : float
+        step value of interpolated axis.
+
+    Returns
+    -------
+    pd.DataFrame
+        interpolated DataFrame
+
+    Raises
+    ------
+    ValueError
+        raise if field is not "z" or "p"
+    """
 
     if field not in ["z", "p"]:
         raise ValueError("field must be either 'z' or 'p'.")

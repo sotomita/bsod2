@@ -14,15 +14,41 @@ from .qc import get_qc_df, interp_df
 
 @dataclass(frozen=True)
 class Sonde:
+    """
+    Sonde Class
+
+    Parameters
+    ----------
+    fpath : Path
+        path of raw file
+    rm_descending : bool, optimal
+        True to remove descending records, by default False
+    interp : str | None, optimal
+        name of interpolation axis. if None, interpolation is not performed, by default None
+    interp_pmin : float, optimal
+        minimum value of interpolated pressure axis, by default 0.0
+    interp_pmax : float, optimal
+        maximum value of interpolated pressure axis, by default 1100.0
+    interp_dp : float, optimal
+        step value of interpolated pressure axis, by default 1.0
+    interp_zmin : float, optimal
+        minimum value of interpolated z axis, by default 0.0
+    interp_zmax : float, optimal
+        maximum value of interpolated z axis, by default 20000.0
+    interp_dz : float, optimal
+        step value of interpolated z axis, by default 10.0
+
+    """
+
     fpath: Path
     rm_descending: bool = False
     interp: str | None = None
     interp_pmin: float = 0.0
     interp_pmax: float = 1100.0
+    interp_dp: float = 1.0
     interp_zmin: float = 0.0
     interp_zmax: float = 20000.0
     interp_dz: float = 10.0
-    interp_dp: float = 1.0
     sonde_no: str = field(init=False)
     launch_time: datetime = field(init=False)
     product_name: str = field(init=False)
@@ -83,56 +109,133 @@ class Sonde:
 
     @property
     def time(self) -> pd.Series:
+        """time
+
+        Returns
+        -------
+        pd.Series
+            time series
+        """
 
         return self.df["Time"]
 
     @property
     def lat(self) -> pint.Quantity:
+        """latitude
+
+        Returns
+        -------
+        pint.Quantity
+            latitude with units("degrees")
+        """
 
         return self.df["GeodetLat"].values * units.degrees
 
     @property
     def lon(self) -> pint.Quantity:
+        """longitude
+
+        Returns
+        -------
+        pint.Quantity
+            longitude with units ("degrees")
+        """
 
         return self.df["GeodetLon"].values * units.degrees
 
     @property
     def x(self) -> pint.Quantity:
+        """x-displacement from the launch point
+
+        Returns
+        -------
+        pint.Quantity
+            x-displacement with units("m")
+        """
 
         return self.df["Xdistanc"].values * units.meters
 
     @property
     def y(self) -> pint.Quantity:
+        """y-displacement from the launch point
+
+        Returns
+        -------
+        pint.Quantity
+            y-displacement with units("m")
+        """
 
         return self.df["Ydistanc"].values * units.meters
 
     @property
     def p(self) -> pint.Quantity:
+        """pressure
+
+        Returns
+        -------
+        pint.Quantity
+            pressure with units("hPa")
+        """
 
         return self.df["Prs"].values * units.hPa
 
     @property
     def z(self) -> pint.Quantity:
+        """height
+
+        Returns
+        -------
+        pint.Quantity
+            height with units("m")
+        """
 
         return self.df["Height"].values * units.m
 
     @property
     def t(self) -> pint.Quantity:
+        """temperature
+
+        Returns
+        -------
+        pint.Quantity
+            temperature with units("degC")
+        """
 
         return self.df["Tmp"].values * units.degC
 
     @property
     def rh(self) -> pint.Quantity:
+        """relative humidity
+
+        Returns
+        -------
+        pint.Quantity
+            relative humidity with units("percent")
+        """
 
         return self.df["Hum"].values * units.percent
 
     @property
     def wd(self) -> pint.Quantity:
+        """wind direction
+
+        Returns
+        -------
+        pint.Quantity
+            wind direction with units("degrees")
+        """
 
         return self.df["WD"].values * units.degrees
 
     @property
     def ws(self) -> pint.Quantity:
+        """wind speed
+
+        Returns
+        -------
+        pint.Quantity
+            wind speed with units("m/s")
+        """
 
         return self.df["WS"].values * units.meter / units.second
 
@@ -141,6 +244,13 @@ class Sonde:
         return len(self.df)
 
     def save_df(self, fpath: Path) -> None:
+        """save as csv
+
+        Parameters
+        ----------
+        fpath : Path
+            file path the df saved
+        """
 
         self.df.to_csv(fpath, index=False)
 
