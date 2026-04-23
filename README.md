@@ -7,7 +7,7 @@ BSoD2(BalloonScope on Deck 2) is a package in Python for reading and visualizing
 - metpy == 1.7.1
 
 ## Installation
-This package can be installed from PyPI.
+This package can be installed from [PyPI](https://pypi.org/project/bsod2/).
 ```
 pip install bsod2
 ```
@@ -113,6 +113,6 @@ See [trajectory.ipynb](sample/trajectory.ipynb) for more details.
 
 See [emagram.ipynb](sample/emagram.ipynb) for more details.
 
-## Licence
+## License
 This project is distributed under the terms of the GNU General Public License, Version 3 (GPLv3).  
 See the [LICENSE](LICENSE) file for details.
