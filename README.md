@@ -2,9 +2,9 @@
 BSoD2(BalloonScope on Deck 2) is a package in Python for reading and visualizing radiosonde data.
 
 ## Requirements
-- numpy >= 2.4.3
-- pandas >= 3.0.2
-- metpy >= 1.7.1
+- numpy == 2.4.3
+- pandas == 3.0.2
+- metpy == 1.7.1
 
 ## Installation
 This package can be installed from PyPI.
