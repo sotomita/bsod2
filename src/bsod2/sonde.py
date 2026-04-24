@@ -102,11 +102,10 @@ class Sonde:
         # interpolate the data if specified.
         if self.interp == "p":
             df = interp_df(df, "p", self.interp_pmin, self.interp_pmax, self.interp_dp)
+            df = df.sort_values("Prs", ascending=False)
         elif self.interp == "z":
             df = interp_df(df, "z", self.interp_zmin, self.interp_zmax, self.interp_dz)
-
-        # sort by altitude.
-        df = df.sort_values("Height")
+            df = df.sort_values("Height")
 
         return df
 
@@ -246,16 +245,24 @@ class Sonde:
 
         return len(self.df)
 
-    def save_df(self, fpath: Path) -> None:
+    def save_df(self, fpath: Path, dropna: bool = True) -> None:
         """save as csv
 
         Parameters
         ----------
         fpath : Path
             file path the df saved
+        dropna : bool
+            True to save DataFrame without NaN records
         """
 
-        self.df.to_csv(fpath, index=False)
+        if self.interp == "p":
+            save_df = self.df.dropna(subset=["Height"])
+        elif self.interp == "z":
+            save_df = self.df.dropna(subset=["Prs"])
+        else:
+            save_df = self.df
+        save_df.to_csv(fpath, index=False)
 
     def __str__(self) -> str:
 
