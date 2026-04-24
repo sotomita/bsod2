@@ -1,5 +1,11 @@
 # bsod2
-BSoD2(BalloonScope on Deck 2) is a package in Python for reading and visualizing radiosonde data.
+[![Publish to PyPI](https://github.com/sotomita/bsod2/actions/workflows/publish.yml/badge.svg)](https://github.com/sotomita/bsod2/actions/workflows/publish.yml)
+<p>
+<img src="https://img.shields.io/github/license/sotomita/bsod2">
+<img src="https://img.shields.io/badge/-Python-gray.svg?logo=Python">
+</p>
+
+BSoD2(BalloonScope on Deck 2) is a package in Python for reading radiosonde data.
 
 ## Requirements
 - numpy == 2.4.3
@@ -47,7 +53,7 @@ Most accessors return values with `metpy.units.units` attached.
 
 
 ### Save as CSV
-Save the quality-controlled DataFrame as a CSV file to the specified file path using the save_df method.
+Save the quality-controlled DataFrame as a CSV file to the specified file path using the `save_df` method.
 ```
 data.save_df(Path("output.csv"))
 ```
