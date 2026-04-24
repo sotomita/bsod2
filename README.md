@@ -1,6 +1,7 @@
 # bsod2
-[![Publish to PyPI](https://github.com/sotomita/bsod2/actions/workflows/publish.yml/badge.svg)](https://github.com/sotomita/bsod2/actions/workflows/publish.yml)
+
 <p>
+<a href="https://github.com/sotomita/bsod2/actions/workflows/publish.yml"><img src="https://github.com/sotomita/bsod2/actions/workflows/publish.yml/badge.svg"></a>
 <img src="https://img.shields.io/github/license/sotomita/bsod2">
 <img src="https://img.shields.io/badge/-Python-gray.svg?logo=Python">
 </p>
@@ -56,6 +57,7 @@ Most accessors return values with `metpy.units.units` attached.
 Save the quality-controlled DataFrame as a CSV file to the specified file path using the `save_df` method.
 ```
 data.save_df(Path("output.csv"))
+
 ```
 
 ### Altitude or pressure interpolation
@@ -82,6 +84,16 @@ Sample data was observed in Seisui-maru 2407 cruise
 (2024年度　三重大学　陸海空・環境科学実習).
 - [raw data](sample/Seisuimaru2407/raw_data/)
 - [field book(pdf)](sample/Seisuimaru2407/2407オペレーター野帳.pdf)
+
+### emagram
+<p align="center">
+ <img src="docs/images/emagram.png" width="400" alt="emagram">
+</p>
+
+#### additional dependencies
+- matplotlib
+
+See [emagram.ipynb](sample/emagram.ipynb) for more details.
 
 ### z vs. sonde variables plot
 <p align="center">
@@ -122,16 +134,6 @@ See [vertcal_csec.ipynb](sample/vertical_csec.ipynb) for more details.
 - tqdm
 
 See [trajectory.ipynb](sample/trajectory.ipynb) for more details.
-
-### emagram
-<p align="center">
- <img src="docs/images/emagram.png" width="400" alt="emagram">
-</p>
-
-#### additional dependencies
-- matplotlib
-
-See [emagram.ipynb](sample/emagram.ipynb) for more details.
 
 ## License
 This project is distributed under the terms of the GNU General Public License, Version 3 (GPLv3).  
