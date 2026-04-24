@@ -144,6 +144,7 @@ def get_qc_df(
             time0 = time
 
         df["Time"] = pd.to_datetime(df["Time"])
+        df["Time"] = df["Time"].values.astype("datetime64[ns]")
 
         # --- error control
         prs = pd.to_numeric(df["Press0"], errors="coerce").values.copy()
@@ -268,15 +269,11 @@ def interp_df(
         if field == col_name:
             continue
         elif field == "Time":
-            df_interp[field] = pd.to_datetime(
-                np.interp(
-                    new_col,
-                    df[col_name].to_numpy(dtype=float),
-                    df["Time"].astype(np.int64).to_numpy(dtype=float),
-                    left=np.nan,
-                    right=np.nan,
-                )
-            )
+            mask = df[col_name].notna() & df["Time"].notna()
+            x = df.loc[mask, col_name].to_numpy()
+            t = df.loc[mask, "Time"].astype("int64").to_numpy()
+
+            df_interp["Time"] = pd.to_datetime(np.interp(new_col, x, t).astype("int64"))
         else:
             x = df[col_name].to_numpy(dtype=float)
             y = df[field].to_numpy(dtype=float)

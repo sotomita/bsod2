@@ -8,6 +8,7 @@ from pathlib import Path
 import pandas as pd
 import pint
 import warnings
+from textwrap import dedent
 
 from .qc import get_qc_df, interp_df
 
@@ -49,10 +50,10 @@ class Sonde:
     interp_zmin: float = 0.0
     interp_zmax: float = 20000.0
     interp_dz: float = 10.0
-    sonde_no: str = field(init=False)
-    launch_time: datetime = field(init=False)
-    product_name: str = field(init=False)
-    df: pd.DataFrame = field(init=False)
+    sonde_no: str = field(init=False, repr=False)
+    launch_time: datetime = field(init=False, repr=False)
+    product_name: str = field(init=False, repr=False)
+    df: pd.DataFrame = field(init=False, repr=False)
     kwargs: dict | None = None
 
     def __post_init__(self) -> None:
@@ -267,3 +268,20 @@ class Sonde:
     def __str__(self) -> str:
 
         return f"Sonde(sonde_no={self.sonde_no}, launch_time={self.launch_time}, product_name={self.product_name}, num_records={len(self.df)})"
+
+    def _repr_html_(self):
+
+        if self.interp == "p":
+            df = self.df.dropna(subset=["Height"])
+        elif self.interp == "z":
+            df = self.df.dropna(subset=["Prs"])
+        else:
+            df = self.df
+        df["Time"] = df["Time"].dt.strftime("%Y-%m-%d %H:%M:%S")
+
+        return dedent(
+            f"""
+        sonde No={self.sonde_no}, launc time={self.launch_time}, product name={self.product_name}
+        {df.head().to_html(float_format="{:.2f}".format)}
+        """
+        ).strip()
