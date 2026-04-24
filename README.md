@@ -49,7 +49,7 @@ Most accessors return values with `metpy.units.units` attached.
 ### Save as CSV
 Save the quality-controlled DataFrame as a CSV file to the specified file path using the save_df method.
 ```
-sonde.save_df(Path("output.csv"))
+data.save_df(Path("output.csv"))
 ```
 
 ### Altitude or pressure interpolation
@@ -57,6 +57,18 @@ Interpolate linearly onto an evenly spaced grid in pressure or altitude using th
 ```
 data = Sonde(FILE_PATH,interp="p")
 ```
+By default, the interpolated pressure axis ranges from 100 to 1100 hPa at 1 hPa intervals, and the height axis ranges from 0 m to 2000 m at 10 m intervals.   
+Values outside the original data range are filled with NaN. The range and resolution of the interpolation axes can be specified using the following arguments.
+
+| Argument      | Description                                                                 | Default |
+|---------------|-----------------------------------------------------------------------------|---------|
+| `interp`      | Name of the interpolation axis. If None, interpolation is not performed.    | None    |
+| `interp_pmin` | Minimum value of the interpolated pressure axis (hPa)                       | 100     |
+| `interp_pmax` | Maximum value of the interpolated pressure axis (hPa)                       | 1100    |
+| `interp_dp`   | Step size of the interpolated pressure axis (hPa)                           | 1       |
+| `interp_zmin` | Minimum value of the interpolated height axis (m)                           | 0       |
+| `interp_zmax` | Maximum value of the interpolated height axis (m)                           | 20000   |
+| `interp_dz`   | Step size of the interpolated height axis (m)                               | 10      |
 
 ## Sample plots
 ### data
@@ -101,8 +113,10 @@ See [vertcal_csec.ipynb](sample/vertical_csec.ipynb) for more details.
 - cartopy
 - pygmt
 - imageio
+- tqdm
 
 See [trajectory.ipynb](sample/trajectory.ipynb) for more details.
+
 ### emagram
 <p align="center">
  <img src="docs/images/emagram.png" width="400" alt="emagram">
