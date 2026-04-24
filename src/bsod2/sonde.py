@@ -26,7 +26,7 @@ class Sonde:
     interp : str | None, optimal
         name of interpolation axis. if None, interpolation is not performed, by default None
     interp_pmin : float, optimal
-        minimum value of interpolated pressure axis, by default 0.0
+        minimum value of interpolated pressure axis, by default 100.0
     interp_pmax : float, optimal
         maximum value of interpolated pressure axis, by default 1100.0
     interp_dp : float, optimal
@@ -43,7 +43,7 @@ class Sonde:
     fpath: Path
     rm_descending: bool = False
     interp: str | None = None
-    interp_pmin: float = 0.0
+    interp_pmin: float = 100.0
     interp_pmax: float = 1100.0
     interp_dp: float = 1.0
     interp_zmin: float = 0.0
