@@ -66,7 +66,11 @@ class Sondeset:
                 raw_fpath_list.append(f)
 
         sondes = []
-        for f in tqdm(raw_fpath_list):
+
+        fpath_loop = (
+            raw_fpath_list if len(raw_fpath_list) == 1 else tqdm(raw_fpath_list)
+        )
+        for f in fpath_loop:
             sondes.append(
                 Sonde(
                     f,
