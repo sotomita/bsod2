@@ -115,7 +115,7 @@ Data variables:
     time         (n, z) datetime64[ns] 128kB 2024-06-18T06:01:42 ... 2024-06-...
 ```
 
-## Sample scrips
+## Sample scripts
 
 See [sample/sample.md](sample/sample.md) for sample scripts.
 
