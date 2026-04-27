@@ -39,8 +39,8 @@ Most accessors return values with `metpy.units.units` attached.
 
 | Accessor | units | Description | Example |
 |----------|-------------|---------| ---------|
-|`df`|| quality-controlled `pandas.DataFrame`|`sonde.df`|
-|`time`||Time|`sonde.time`|
+|`df`|`NOne`| quality-controlled `pandas.DataFrame`|`sonde.df`|
+|`time`|`None`|Time|`sonde.time`|
 |`lat`|`units("deg")`| Latitude|`sonde.lat`|
 |`lon`|`units("deg")`| Longitude|`sonde.lon`|
 |`x`|`units("m")`| X-displacement from the launch point|`sonde.x`|
@@ -71,7 +71,7 @@ Values outside the original data range are filled with NaN. The range and resolu
 | Argument      | Description                                                                 | Default |
 |---------------|-----------------------------------------------------------------------------|---------|
 | `interp`      | Name of the interpolation axis. If None, interpolation is not performed.    | None    |
-| `interp_pmin` | Minimum value of the interpolated pressure axis (hPa)                       | 100     |
+| `interp_pmin` | Minimum value of the interpolated pressure axis (hPa)                       | 50     |
 | `interp_pmax` | Maximum value of the interpolated pressure axis (hPa)                       | 1100    |
 | `interp_dp`   | Step size of the interpolated pressure axis (hPa)                           | 1       |
 | `interp_zmin` | Minimum value of the interpolated height axis (m)                           | 0       |
