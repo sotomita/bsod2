@@ -256,9 +256,6 @@ def interp_df(
 
     if field not in ["z", "p"]:
         raise ValueError("field must be either 'z' or 'p'.")
-    if len(df) < 3:
-        warnings.warn("Not enough records to interpolate.")
-        return df
 
     col_name = "Height" if field == "z" else "Prs"
     df = df.sort_values(col_name).reset_index(drop=True)
@@ -270,20 +267,31 @@ def interp_df(
             continue
         elif field == "Time":
             mask = df[col_name].notna() & df["Time"].notna()
-            x = df.loc[mask, col_name].to_numpy()
-            t = df.loc[mask, "Time"].astype("int64").to_numpy()
+            if np.sum(mask) < 3:
+                df_interp["Time"] = np.full(
+                    new_col.shape[0], np.datetime64("NaT", "ns")
+                )
+            else:
+                x = df.loc[mask, col_name].to_numpy()
+                t = df.loc[mask, "Time"].astype("int64").to_numpy()
 
-            df_interp["Time"] = pd.to_datetime(np.interp(new_col, x, t).astype("int64"))
+                df_interp["Time"] = pd.to_datetime(
+                    np.interp(new_col, x, t).astype("int64")
+                )
         else:
             x = df[col_name].to_numpy(dtype=float)
             y = df[field].to_numpy(dtype=float)
             mask = ~np.isnan(x) & ~np.isnan(y)
-            df_interp[field] = np.interp(
-                new_col,
-                x[mask],
-                y[mask],
-                left=np.nan,
-                right=np.nan,
-            )
+
+            if np.sum(mask) < 3:
+                df_interp[field] = np.full((new_col.shape[0],), np.nan)
+            else:
+                df_interp[field] = np.interp(
+                    new_col,
+                    x[mask],
+                    y[mask],
+                    left=np.nan,
+                    right=np.nan,
+                )
 
     return df_interp
