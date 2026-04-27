@@ -281,7 +281,7 @@ class Sonde:
 
         return dedent(
             f"""
-        sonde No={self.sonde_no}, launc time={self.launch_time}, product name={self.product_name}
+        sonde No={self.sonde_no}, launch time={self.launch_time}, product name={self.product_name}
         {df.head().to_html(float_format="{:.2f}".format)}
         """
         ).strip()
