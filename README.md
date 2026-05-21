@@ -1,20 +1,14 @@
 # bsod2
 
 <p>
+<img src="https://img.shields.io/pypi/v/bsod2">
 <a href="https://github.com/sotomita/bsod2/actions/workflows/publish.yml"><img src="https://github.com/sotomita/bsod2/actions/workflows/publish.yml/badge.svg"></a>
 <img src="https://img.shields.io/pypi/dm/bsod2.svg?label=PyPI%20downloads">
 <img src="https://img.shields.io/github/license/sotomita/bsod2">
-<img src="https://img.shields.io/badge/-Python-gray.svg?logo=Python">
+<img src="https://img.shields.io/pypi/pyversions/bsod2.svg?logo=python&logoColor=white">
 </p>
 
 BSoD2(BalloonScope on Deck 2) is a package in Python for reading radiosonde data.
-
-## Requirements
-- numpy == 2.4.3
-- pandas == 3.0.2
-- xarray == 2026.4.0
-- metpy == 1.7.1
-- tqdm == 4.67.3
 
 ## Installation
 This package can be installed from [PyPI](https://pypi.org/project/bsod2/).
@@ -56,7 +50,7 @@ Most accessors return values with `metpy.units.units` attached.
 
 | Accessor | units | Description | Example |
 |----------|-------------|---------| ---------|
-|`df`|`NOne`| quality-controlled `pandas.DataFrame`|`ss[0].df`|
+|`df`|`None`| quality-controlled `pandas.DataFrame`|`ss[0].df`|
 |`time`|`None`|Time|`ss[0].time`|
 |`lat`|`units("deg")`| Latitude|`ss[0].lat`|
 |`lon`|`units("deg")`| Longitude|`ss[0].lon`|
@@ -64,11 +58,17 @@ Most accessors return values with `metpy.units.units` attached.
 |`y`|`units("m")`| Y-displacement from the launch point|`ss[0].y`|
 |`z`| ```units("m")```  | Altitude | `ss[0].z` |
 |`p`| ```units("hPa")```  | Pressure | `ss[0].p` |
-|`t`| ```units("degC")```| Temperature | `ss[0].temp` |
+|`t`| ```units("degC")```| Temperature | `ss[0].tss` |
 |`rh`|```units("percents")```| Relative humidity | `ss[0].rh` |
 |`wd`|```units("deg")```| Wind direction | `ss[0].wd` |
 |`ws`| ```units("m/s")```| Wind speed | `ss[0].ws` |
 
+### Get Number of profiles
+`len` function can be used to get number of profiles contained in  `Sondeset`.
+```
+len(ss)
+>>> 8
+```
 
 ### Save as CSV
 Save the quality-controlled DataFrame as a CSV file to the specified file path using the `save_df` method.
@@ -86,7 +86,7 @@ Values outside the original data range are filled with NaN. The range and resolu
 
 | Argument| Description                                                                 | Default |
 |---------------|-----------------------------------------------------------------------------|---------|
-| `interp`      | Name of the interpolation axis. If None, interpolation is not performed.    | None    |
+|`interp`| Name of the interpolation axis. If `None`, interpolation is not performed.|`None`|
 | `interp_pmin` | Minimum value of the interpolated pressure axis (hPa)                       | 50     |
 | `interp_pmax` | Maximum value of the interpolated pressure axis (hPa)                       | 1100    |
 | `interp_dp`   | Step size of the interpolated pressure axis (hPa)                           | 1       |
@@ -98,7 +98,7 @@ Values outside the original data range are filled with NaN. The range and resolu
 `Sondeset.ds` provides access to an `xarray.Dataset` containing interpolated and combined radiosonde data.
 ```
 ss = Sondeset(Path("Seisuimaru2407/raw_data", interp="z"))
-ss.ds
+print(ss.ds)
 >>> 
 xarray.Dataset> Size: 785kB
 Dimensions:      (n: 8, z: 2001)

@@ -277,11 +277,9 @@ class Sonde:
             df = self.df.dropna(subset=["Prs"])
         else:
             df = self.df
-        df["Time"] = df["Time"].dt.strftime("%Y-%m-%d %H:%M:%S")
+        df.loc[:, "Time"] = df["Time"].dt.strftime("%Y-%m-%d %H:%M:%S")
 
-        return dedent(
-            f"""
+        return dedent(f"""
         sonde No={self.sonde_no}, launch time={self.launch_time}, product name={self.product_name}
         {df.head().to_html(float_format="{:.2f}".format)}
-        """
-        ).strip()
+        """).strip()
